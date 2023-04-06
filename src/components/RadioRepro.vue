@@ -10,12 +10,12 @@
         justify-content-md-center
         align-items-md-center
       "
-      style="margin-right: 23vw; margin-top: 1.3vw"
+      style="margin-right: 23vw; margin-top: 1.3vw; margin-bottom: 8.2%;"
     >
       <audio id="player">
         <source
           id="source"
-          src="https://stream.arcast.net:4443/radio/radiosur.stream/playlist.m3u8/;"
+          src="https://stream.xweb.ar/8008/stream"
         />
       </audio>
       <div
@@ -48,11 +48,7 @@
             align-items-xxl-center
           "
         >
-          <!-- <i
-            class="fas fa-play text-white"
-            id="iconPlay"
-            onclick="togglePlay();"
-          ></i> -->
+
           <font-awesome-icon
             icon="fa-solid fa-play"
             style="font-size: 2vw"
@@ -149,7 +145,7 @@ export default {
 }
 
 input[type="range"] {
-  -webkit-appearance: none;
+  appearance: none;
   margin-right: 1vw;
   width: 12vw;
   height: 1.3vw;
