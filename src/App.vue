@@ -4,10 +4,12 @@
     <LandingEslogan/>
     <RadioRepro/>
     <LandingPage/>
+    <ProgramCarousel/>
   </div>
 </template>
 
 <script>
+import ProgramCarousel from './components/ProgramCarousel.vue';
 import LandingPage from './components/LandingPage.vue'
 import NavBar from './components/NavBar.vue'
 import LandingEslogan from "./components/LandingEslogan.vue";
@@ -20,7 +22,8 @@ export default {
     NavBar,
     LandingPage,
     LandingEslogan,
-    RadioRepro
+    RadioRepro,
+    ProgramCarousel
 
   }
 }
