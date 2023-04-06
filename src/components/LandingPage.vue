@@ -1,8 +1,6 @@
 <template>
-  <div class="d-md-flex flex-column" id="fondo">
-    <br>
-    <br>  
-    <br>
+  <div class="d-md-flex flex-column" id="fondo1">
+
     <LandingEslogan/>
     <RadioRepro/>
     
@@ -24,11 +22,13 @@ export default {
 </script>
 
 <style>
-#fondo {
+#fondo1 {
   background-image: url("../assets/mic-grande.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
   width: 100%;
   height: 100vh;
+  z-index: -1;
 }
 </style>

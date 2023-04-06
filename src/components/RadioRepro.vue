@@ -12,7 +12,7 @@
       "
       style="margin-right: 23vw; margin-top: 1.3vw; margin-bottom: 8.2%;"
     >
-      <audio id="player">
+      <audio id="player" ref="repro" >
         <source
           id="source"
           src="https://stream.xweb.ar/8008/stream"
@@ -49,11 +49,7 @@
           "
         >
 
-          <font-awesome-icon
-            icon="fa-solid fa-play"
-            style="font-size: 2vw"
-            inverse
-          />
+         <font-awesome-icon v-bind:icon="['fas', iconPlay]" style="font-size: 2vw;" inverse @click="togglePlay"/>
         </div>
         <div
           class="
@@ -80,7 +76,8 @@
             min="0"
             max="1"
             step="0.01"
-            name="volumen"
+            v-model="volume"
+            @input="handleInputChange"
           />
         </div>
         <div
@@ -95,7 +92,7 @@
           "
           style="margin-left: 1.2vw"
         >
-          <font-awesome-icon id="iconVolume" icon="fa-solid fa-volume-high" />
+        <font-awesome-icon id="iconVolume" v-bind:icon="['fas', iconVol]" />
         </div>
       </div>
     </div>
@@ -105,6 +102,38 @@
 <script>
 export default {
   name: "RadioRepro",
+  data() {
+    return {
+      iconPlay: "play",
+      iconVol: "volume-low",
+      volume: 0.5
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    handleInputChange(event) {
+      console.log(event.target);
+      const target = event.target;
+      const min = target.min;
+      const max = target.max;
+      const value = target.value;
+
+      this.volume = value;
+      player.volume = value;
+      target.style.backgroundSize = (100 * (value - min)) / (max - min) + "% 100%";
+    },
+    togglePlay() {
+      if(player.paused && !player.ended) {
+        this.iconPlay = "pause";
+        player.play();
+      } else {
+        this.iconPlay = "play";
+        player.pause();
+      }
+    },
+
+  }
 }; 
 </script>
 
@@ -144,33 +173,34 @@ export default {
   color: #c8c544;
 }
 
-input[type="range"] {
-  appearance: none;
-  margin-right: 1vw;
-  width: 12vw;
-  height: 1.3vw;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
-  background-image: linear-gradient(#c8c544, #c8c544);
-  background-size: 50% 100%;
-  background-repeat: no-repeat;
+input[type=range] {
+    -webkit-appearance: none;
+    margin-right: 1vw;
+    width: 12vw;
+    height: 1.3vw;
+    background: rgba(255, 255, 255, .6);
+    border-radius: 5px;
+    background-image: linear-gradient(#c8c544, #c8c544);
+    background-size: 50% 100%;
+    background-repeat: no-repeat
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
-  box-shadow: none;
-  border: none;
-  background: 0 0;
+input[type=range]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: 0 0
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  background: #c8c544;
-  box-shadow: 0 0 2px 0 #555;
-  height: 1.3vw;
-  width: 1.3vw;
-  border-radius: 5px;
-  box-shadow: none;
-  align-self: center;
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #c8c544;
+    box-shadow: 0 0 2px 0 #555;
+    height: 1.3vw;
+    width: 1.3vw;
+    border-radius: 5px;
+    box-shadow: none;
+    align-self: center
 }
+
 </style>
