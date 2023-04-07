@@ -12,7 +12,7 @@
       "
       style="margin-right: 23vw; margin-top: 1.3vw; margin-bottom: 8.2%;"
     >
-      <audio id="player" ref="repro" >
+      <audio id="player" ref="repro" autoplay>
         <source
           id="source"
           src="https://stream.xweb.ar/8008/stream"
@@ -110,6 +110,9 @@ export default {
       volume: 0.5
     }
   },
+  computed: {
+
+  },
   mounted() {
   },
   methods: {
@@ -158,7 +161,7 @@ export default {
       this.iconVol = "volume-low";
     }
   } else {
-    this.$refs.repro.muted.muted = true;
+    player.muted = true;
     this.iconVol = "volume-mute";
     this.$refs.vol.value = 0;
     this.$refs.vol.style.backgroundSize = "0% 100%";

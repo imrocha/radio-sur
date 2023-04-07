@@ -1,6 +1,6 @@
 <template>
   <div class="d-md-flex flex-column" id="fondo1">
-
+    <NavBar/>
     <LandingEslogan/>
     <RadioRepro/>
     
@@ -10,12 +10,14 @@
 <script>
 import LandingEslogan from "./LandingEslogan.vue";
 import RadioRepro from "./RadioRepro.vue";
+import NavBar from "./NavBar.vue";
 
 export default {
   name: "LandingPage",
   components: {
     LandingEslogan,
     RadioRepro,
+    NavBar
 
   }
 };
