@@ -49,7 +49,7 @@
           "
         >
 
-         <font-awesome-icon v-bind:icon="['fas', iconPlay]" style="font-size: 2vw;" inverse @click="togglePlay"/>
+         <font-awesome-icon v-bind:icon="['fas', iconPlay]" class="playStyle" inverse @click="togglePlay"/>
         </div>
         <div
           class="
@@ -58,7 +58,7 @@
             align-items-center align-items-sm-center
             volumen
           "
-          style="margin-left: 1.6vw"
+          style=""
         >
           <input
             class="
@@ -170,6 +170,14 @@ export default {
 </script>
 
 <style>
+.playStyle {
+  font-size: 2vw;
+}
+
+.volumen {
+  margin-left: 1.6vw
+}
+
 #pill {
   width: 27vw;
   height: 6.3vw;
@@ -229,4 +237,60 @@ input[type=range]::-webkit-slider-thumb {
     align-self: center
 }
 
+@media (max-width: 768px) {
+#pill {
+  width: 15rem;
+  height: 7vh;
+  left: 59px;
+  top: 487px;
+  background: rgba(0, 0, 0, 0.49);
+  border-radius: 100px;
+}
+
+#circlePlay {
+  left: 6.25%;
+  right: 6.25%;
+  top: 6.25%;
+  bottom: 6.25%;
+  background: radial-gradient(
+    147.17% 124.75% at 49.2% -0.7%,
+    #c8c544 60.42%,
+    #5a5906 100%
+  );
+  width: 5.3vh;
+  height: 5.3vh;
+  border-radius: 100px;
+  margin-left: 0.5rem;
+}
+
+#iconVolume {
+  font-size: 1.5rem;
+  background: linear-gradient(to bottom, #c8c544 100%, #5a5906 100%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #c8c544;
+}
+
+.volumen {
+  margin-left: 0
+}
+input[type=range] {
+    appearance: none;
+    width: 7rem;
+    margin-left: 20%;
+    margin-right: 1.5rem;
+    height: 1.5vh;
+    background: rgba(255, 255, 255, .6);
+    border-radius: 5px;
+    background-image: linear-gradient(#c8c544, #c8c544);
+    background-size: 50% 100%;
+    background-repeat: no-repeat
+}
+
+.playStyle {
+  font-size: 1rem;
+}
+}
 </style>
