@@ -53,7 +53,7 @@ export default {
 
 @media (max-width: 768px) {
   #eslogan {
-    font-size: calc(1rem + 5vw);
+    font-size: calc(0.8rem + 5vw);
     margin-top: 10%;
     margin-right: 3.5em;
     margin-left: 0.5%;

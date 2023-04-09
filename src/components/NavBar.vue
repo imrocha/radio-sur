@@ -7,8 +7,15 @@
       :variant="navColor"
     >
       <div>
-        <b-navbar-toggle target="nav-collapse" style="margin-left: 10px; border: 0;">
-          <font-awesome-icon :icon="['fas', 'bars']" style="color: #ffffff;" size="lg"/>
+        <b-navbar-toggle
+          target="nav-collapse"
+          style="margin-left: 10px; border: 0"
+        >
+          <font-awesome-icon
+            :icon="['fas', 'bars']"
+            style="color: #ffffff"
+            size="lg"
+          />
         </b-navbar-toggle>
         <b-navbar-brand href="#" v-if="fix"
           ><img src="../assets/sur.png" alt="radio-sur" class="sur"
@@ -36,16 +43,31 @@
           </div>
           <div class="borde" v-if="fix"></div>
           <div class="redes">
-          <b-nav-item href="#">
-            <font-awesome-icon icon="fa-brands fa-facebook" size="2x" inverse :class="{'social-icon': fix}"/>
-          </b-nav-item>
-          <b-nav-item href="#">
-            <font-awesome-icon icon="fa-brands fa-twitter" size="2x" inverse :class="{'social-icon': fix}"/>
-          </b-nav-item>
-          <b-nav-item href="#">
-            <font-awesome-icon icon="fa-brands fa-whatsapp" size="2x" inverse :class="{'social-icon': fix}"/>
-          </b-nav-item>
-        </div>
+            <b-nav-item href="#">
+              <font-awesome-icon
+                icon="fa-brands fa-facebook"
+                size="2x"
+                inverse
+                :class="{ 'social-icon': fix }"
+              />
+            </b-nav-item>
+            <b-nav-item href="#">
+              <font-awesome-icon
+                icon="fa-brands fa-twitter"
+                size="2x"
+                inverse
+                :class="{ 'social-icon': fix }"
+              />
+            </b-nav-item>
+            <b-nav-item href="#">
+              <font-awesome-icon
+                icon="fa-brands fa-whatsapp"
+                size="2x"
+                inverse
+                :class="{ 'social-icon': fix }"
+              />
+            </b-nav-item>
+          </div>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -72,30 +94,33 @@ export default {
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
     window.addEventListener("resize", this.handleResize);
-
   },
   methods: {
     handleResize() {
+      this.isFixed = "null";
+      this.navColor = "";
+      this.toggle = "sm";
+
       if (window.innerWidth < 768) {
-        this.isFixed = "null";
         this.fix = true;
         this.navColor = "black";
         this.toggle = "";
       } else {
-        this.isFixed = "null";
         this.fix = false;
-        this.navColor = "";
-        this.toggle = "sm";
-
       }
     },
     handleScroll() {
+      // If the window is scrolled past the height of the page - 70px
       if (window.pageYOffset > window.innerHeight - 70) {
+        // Fix the navbar to the top of the page
         this.isFixed = "top";
         this.fix = true;
+        // Change the background color to black
         this.navColor = "black";
+        // Remove the small screen styling
         this.toggle = "";
       } else {
+        // Otherwise, unfix the navbar and remove the styling
         this.isFixed = null;
         this.fix = false;
         this.navColor = "";

@@ -16,7 +16,9 @@
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
-    "vue": "^2.7.14"
+    "swiper": "^9.2.0",
+    "vue": "^2.7.14",
+    "vueperslides": "^2.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

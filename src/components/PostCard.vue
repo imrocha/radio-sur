@@ -1,17 +1,19 @@
 <template>
   <div class="padre">
-    <div class="base">
-        <div class="descripcion">
-          <p class="titulo">TEMPORADA CAPRICORNIO Y UNA NAVIDAD.</p>
-          <p class="subtitulo">Horoscopo en un minuto con Mauro.</p>
-          <p class="texto">¡Qué semana arrancamos ¡ Ganó argentina, el pueblo argentino llora de felicidad , se viene Navidad. Independientemente de las energías se festeja a pesar de todo. Dato de color: Las energías de los astros siempre estuvieron de nuestro lado.</p>
-          <p class="verNota">VER LA NOTA ></p>
-        </div>
-        <div class="marco">
-          <img class="foto" src="../assets/horoscopo.jpg" alt="">
-        </div>
+  <div class="base">
+    <div class="descripcion">
+      <p class="titulo">TEMPORADA CAPRICORNIO Y UNA NAVIDAD.</p>
+      <p class="subtitulo">Horoscopo en un minuto con Mauro.</p>
+      <p class="texto">
+        ¡Qué semana arrancamos ¡ Ganó argentina, el pueblo argentino llora de felicidad , se viene Navidad. Independientemente de las energías se festeja a pesar de todo. Dato de color: Las energías de los astros siempre estuvieron de nuestro lado.
+      </p>
+      <p class="verNota">VER LA NOTA ></p>
+    </div>
+    <div class="marco">
+      <img class="foto" src="../assets/horoscopo.jpg" alt="">
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -32,6 +34,7 @@ export default {
 }
 
 .base {
+  border-radius: 10px;
   display: flex;
   flex-direction: row;
   width: 80%;
@@ -76,8 +79,8 @@ export default {
   margin-bottom: 0;
 }
 
+
 .foto {
-  
   width: 100%;
   height: 100%;
 }
@@ -89,13 +92,17 @@ export default {
   color: #C8C544;
   font-size: 1.5vw;
   margin-top: 2%;
+  margin-bottom: 1.5%;
   cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
+
   .base {
+    border-radius: 10px;
     flex-direction: column;
-    width: 80%;
+    height: auto;
+    width: 90%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 
@@ -104,14 +111,30 @@ export default {
     width: 100%;
   }
 
+  .foto {
+    display: none;
+  }
+
   .verNota {
     text-align: end;
     margin-right: 3%;
   }
   
- .marco {
-    width: 100%;
-    height: 40vw;
+  .titulo {
+    font-size: 1rem;
+  }
+
+  .subtitulo{
+    font-size: 0.8rem;
+  }
+
+  .texto {
+    font-size: 0.7rem;
+  }
+
+
+ .verNota {
+    font-size: 0.7rem;
  }
 }
 </style>

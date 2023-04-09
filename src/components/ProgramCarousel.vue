@@ -57,10 +57,10 @@ export default {
     handleResize() {
       if (window.innerWidth < 768) {
         this.cards = 2;
-        this.slideRatio = 1 / 4; // relación de aspecto para pantallas medianas
+        this.slideRatio = 1 / 4; // aspect ratio for medium screens
       } else {
         this.cards = 3;
-        this.slideRatio = 1 / 6; // relación de aspecto por defecto para pantallas grandes
+        this.slideRatio = 1 / 6; // default aspect ratio for large screens
       }
     },
   },
