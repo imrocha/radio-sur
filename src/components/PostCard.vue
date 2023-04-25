@@ -1,29 +1,85 @@
 <template>
   <div class="padre">
-  <div class="base">
-    <div class="descripcion">
-      <p class="titulo">TEMPORADA CAPRICORNIO Y UNA NAVIDAD.</p>
-      <p class="subtitulo">Horoscopo en un minuto con Mauro.</p>
-      <p class="texto">
-        ¡Qué semana arrancamos ¡ Ganó argentina, el pueblo argentino llora de felicidad , se viene Navidad. Independientemente de las energías se festeja a pesar de todo. Dato de color: Las energías de los astros siempre estuvieron de nuestro lado.
-      </p>
-      <p class="verNota">VER LA NOTA ></p>
-    </div>
-    <div class="marco">
-      <img class="foto" src="../assets/horoscopo.jpg" alt="">
+    <div class="base">
+      <div class="descripcion">
+        <p class="titulo">{{ noticia.titulo }}</p>
+        <p class="subtitulo">{{ noticia.subtitulo }}</p>
+        <p class="texto">
+          {{noticia.texto}}
+        </p>
+        <a :href=noticia.link class="verNota" target="_blank">VER LA NOTA ></a>
+      </div>
+      <div class="marco">
+        <img class="foto" :src=noticia.foto alt="" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
-export default {
+import Firebase from "firebase";
+import "firebase/storage";
+import config from "@/config";
+let app = Firebase.initializeApp(config);
+let db = app.database();
+let storage = app.storage();
+let storageRef = storage.ref();
 
+export default {
+  data() {
+    return {
+      noticia: {
+        titulo: "",
+        subtitulo: "",
+        texto: "",
+        foto: "",
+        link: "",
+      },
+      spotify: ""
+    };
+  },
+  methods: {
+  async obtenerNoticia() {
+    try {
+      const snapshot = await db.ref("nota").once("value");
+      const noticias = snapshot.val();
+      const noticia = noticias[Object.keys(noticias)[0]];
+      this.noticia.titulo = noticia.titulo;
+      this.noticia.subtitulo = noticia.subtitulo;
+      this.noticia.texto = noticia.cuerpo;
+      this.noticia.link = noticia.link;
+      console.log(this.noticia);
+      await this.obtenerImagenNoticia();
+    } catch (error) {
+      console.error(error);
+      // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
+    }
+  },
+
+  async obtenerImagenNoticia() {
+    try {
+      const res = await storageRef.child("imagenes/").listAll();
+      const url = await res.items[0].getDownloadURL();
+      this.noticia.foto = url;
+    } catch (error) {
+      console.error(error);
+      // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
+    }
+  }
+},
+
+created() {
+  this.obtenerNoticia();
 }
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;600;300&display=swap');
+ a, a:hover, a:focus, a:active {
+      text-decoration: none !important;
+      color: #c8c544;
+ }
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;600;300&display=swap");
 .padre {
   margin-top: 2%;
   margin-bottom: 2%;
@@ -42,7 +98,6 @@ export default {
   height: 28vw;
   background-color: white;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.5);
-
 }
 
 .descripcion {
@@ -53,9 +108,9 @@ export default {
 }
 
 .titulo {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 700;
-  color: #C8C544;
+  color: #c8c544;
   font-size: 3vw;
   margin-top: 2%;
   margin-left: 3%;
@@ -63,7 +118,7 @@ export default {
 }
 
 .subtitulo {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 600;
   color: black;
   font-size: 2vw;
@@ -72,7 +127,7 @@ export default {
 }
 
 .texto {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 300;
   color: black;
   font-size: 1.7vw;
@@ -80,17 +135,16 @@ export default {
   margin-bottom: 0;
 }
 
-
 .foto {
   width: 100%;
   height: 100%;
 }
 
 .verNota {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 600;
   text-align: end;
-  color: #C8C544;
+  color: #c8c544;
   font-size: 1.5vw;
   margin-top: 2%;
   margin-bottom: 1.5%;
@@ -98,7 +152,6 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
-
   .base {
     border-radius: 10px;
     flex-direction: column;
@@ -120,12 +173,12 @@ export default {
     text-align: end;
     margin-right: 3%;
   }
-  
+
   .titulo {
     font-size: 1rem;
   }
 
-  .subtitulo{
+  .subtitulo {
     font-size: 0.8rem;
   }
 
@@ -133,9 +186,8 @@ export default {
     font-size: 0.7rem;
   }
 
-
- .verNota {
+  .verNota {
     font-size: 0.7rem;
- }
+  }
 }
 </style>
