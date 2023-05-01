@@ -2,7 +2,7 @@
   <div>
     <iframe
     class="spotify"
-      src="https://open.spotify.com/embed/playlist/37i9dQZF1EQqedj0y9Uwvu?utm_source=generator&theme=0"
+      :src=link
       frameBorder="0"
       height="100%"
       allowfullscreen=""
@@ -13,8 +13,40 @@
 </template>
   
   <script>
+
+import Firebase from "firebase";
+import "firebase/storage";
+import config from "@/config";
+let appSpot = Firebase.initializeApp(config, 'spot');
+let db = appSpot.database();
+
 export default {
   name: "SpotifyCard",
+
+  data() {
+    return {
+      link: '',
+    }
+  },
+
+  methods: {
+    async obtenerPlaylist() {
+      try {
+        const snapshot = await db.ref("musica").once("value");
+      const playlist = snapshot.val();
+      const spotify = playlist[Object.keys(playlist)];
+        this.link = spotify;
+        console.log(this.link);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
+
+  created() {
+    this.obtenerPlaylist();
+    
+}
 };
 </script>
 

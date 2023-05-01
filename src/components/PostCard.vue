@@ -48,7 +48,6 @@ export default {
       this.noticia.subtitulo = noticia.subtitulo;
       this.noticia.texto = noticia.cuerpo;
       this.noticia.link = noticia.link;
-      console.log(this.noticia);
       await this.obtenerImagenNoticia();
     } catch (error) {
       console.error(error);
