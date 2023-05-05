@@ -150,7 +150,7 @@ created() {
   cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 854px) {
   .base {
     border-radius: 10px;
     flex-direction: column;

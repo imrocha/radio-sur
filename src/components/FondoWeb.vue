@@ -45,7 +45,7 @@ export default {
   padding-bottom: 3%;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 854px) {
     .media {
       display: flex;
       align-items: center;
