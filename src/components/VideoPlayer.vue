@@ -1,12 +1,14 @@
 <template>
   <div>
-    <video ref="video" class="video" controls></video>
     <iframe
-      width="640"
-      height="520"
-      src="https://www.youtube.com/embed/OsD1SJKtO9U "
-    >
+    class="youtube"
+      :src="videoYoutube"
+      v-show="link === 'youtube'"
+    >    
     </iframe>
+
+    <video ref="video" class="video" v-show="link === 'streaming'" controls controlsList="nodownload"></video>
+
   </div>
 </template>
 
@@ -19,41 +21,72 @@ let appSpot = Firebase.initializeApp(config, "player");
 let db = appSpot.database();
 
 export default {
-  mounted() {
-    let hls = new Hls();
-    let stream = "https://youtu.be/ls3rD8VfiSY?list=RDMMls3rD8VfiSY";
-    let video = this.$refs["video"];
-    hls.loadSource(stream);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-      video.play();
-    });
+  data() {
+    return {
+      link: null,
+      videoLink: "",
+      videoStreaming: "",
+      videoYoutube: "",
+    };
   },
+
+
 
   methods: {
     async obtenerVideo() {
       try {
-        const snapshot = await db.ref("musica").once("value");
-        const playlist = snapshot.val();
-        const spotify = playlist[Object.keys(playlist)];
-        this.link = spotify;
-        console.log(this.link);
+        const snapshot = await db.ref("link").once("value");
+        const video = snapshot.val();
+        const videoPlayer = video[Object.keys(video)];
+        this.videoLink = videoPlayer.link;
+        this.link = videoPlayer.tipo;
+
+        if (this.link === "streaming") {
+          this.videoStreaming = this.videoLink;
+        } else {
+          this.videoYoutube = this.videoLink;
+        }
+        this.cargarHLS();
       } catch (error) {
         console.log(error);
       }
     },
+
+    cargarHLS() {
+    let hls = new Hls();
+    let stream = this.videoStreaming;
+    let video = this.$refs["video"];
+    hls.loadSource(stream);
+    hls.attachMedia(video);
+  
+    }
+  },
+
+  created() {
+    this.obtenerVideo();
   },
 };
 </script>
 
 <style>
 .video {
-  width: 60%;
+  width: 62vw;
+  height: 62vh;
 }
+
+.youtube {
+  width: 62vw;
+  height: 62vh;
+}
+
+
 @media screen and (max-width: 854px) {
   .video {
-    height: 100%;
-    width: 90%;
+    width: 90vw;
+  }
+
+  .youtube {
+    width: 90vw;
   }
 }
 </style>
