@@ -83,7 +83,7 @@ export default {
 
 @media screen and (max-width: 854px) {
   .video {
-    margin-top: 5%;
+    margin-top: 3%;
     width: 90vw;
     height: max-content;
   }

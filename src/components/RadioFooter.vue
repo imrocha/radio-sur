@@ -1,6 +1,9 @@
 <template>
   <div id="footer">
     <div id="footer-info">
+      <div id="logo">
+        <img id="sur" src="../assets/logosur2.png" alt="radio-sur">
+      </div>
       <div id="la-radio">
         <h4>LA RADIO</h4>
         <p class="paginas">Streaming</p>
@@ -16,28 +19,17 @@
         <p class="info">Email</p>
         <p class="info">Dirección</p>
       </div>
-
-      <div class="mapa">
-        <div class="mapouter">
-          <div class="gmap_canvas">
-            <iframe
-              width="100%"
-              height="100%"
-              id="gmap_canvas"
-              src="https://maps.google.com/maps?q=Radio Sur&t=&z=10&ie=UTF8&iwloc=&output=embed"
-              frameborder="0"
-              scrolling="no"
-              marginheight="0"
-              marginwidth="0"
-            ></iframe
-            ><a href="https://2yu.co">2yu</a><br /><a
-              href="https://embedgooglemap.2yu.co/"
-              >html embed google map</a
-            >
-          </div>
-        </div>
-      </div>
     </div>
+    <div id="mapa">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3273.6693936708148!2d-57.894649923459696!3d-34.86453357132055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2e4484a0dde79%3A0x45094030d84695d5!2sRadio%20Sur%20105.1!5e0!3m2!1ses!2sar!4v1683478485900!5m2!1ses!2sar"
+          style="border: 0"
+          class="google-maps"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
   </div>
 </template>
 
@@ -60,13 +52,36 @@ p {
   font-family: "Outfit", sans-serif;
   font-weight: 400;
 }
+
+#logo {
+  width: min-content;
+  margin-right: 5%;
+}
+
+#sur {
+  width: 15rem;
+  height: 15rem;
+}
+
 #footer {
+  display: flex;
   background: rgb(3, 3, 0);
   height: 100%;
   width: 100%;
 }
 
+.google-maps {
+  width: 25vw;
+  height: 20vh;
+}
+
+#mapa {
+margin: 2% 5% 0 3%;
+
+}
+
 #footer-info {
+  margin:2% 0 0 3%;
   display: flex;
   height: 100%;
   width: 100%;
@@ -76,17 +91,40 @@ p {
   margin-right: 8%;
 }
 
-.gmap_canvas {
-  overflow: hidden;
-  background: none !important;
-  height: 100%;
-  width: 30vw;
-}
+@media screen and (max-width: 854px) {
+  #logo {
+    display: none;
+  }
 
-.mapouter {
-  position: relative;
-  text-align: right;
-  height: 100%;
-  width: 100%;
+  #footer {
+    flex-direction: column;
+  }
+  #footer-info {
+    flex-direction: column;
+    width: 90vw;
+    margin:2% 0 0 3%;
+
+  }
+  #mapa {
+    margin: 2% 5% 0 3%;
+  }
+  #la-radio {
+    margin-right: 0;
+  }
+  .google-maps {
+    width: 100%;
+    height: 20vh;
+  }
+
+  #footer-info {
+    margin-bottom: 5%;
+  }
+  #mapa {
+    margin-bottom: 5%;
+  }
+  #la-radio {
+    margin-bottom: 5%;
+  }
+
 }
 </style>

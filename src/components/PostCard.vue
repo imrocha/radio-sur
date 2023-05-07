@@ -5,12 +5,14 @@
         <p class="titulo">{{ noticia.titulo }}</p>
         <p class="subtitulo">{{ noticia.subtitulo }}</p>
         <p class="texto">
-          {{noticia.texto}}
+          {{ noticia.texto }}
         </p>
-        <a :href=noticia.link class="verNota" target="_blank">VER LA NOTA ></a>
+        <a :href="noticia.link" class="verNota" target="_blank"
+          >VER LA NOTA ></a
+        >
       </div>
       <div class="marco">
-        <img class="foto" :src=noticia.foto alt="" />
+        <img class="foto" :src="noticia.foto" alt="" />
       </div>
     </div>
   </div>
@@ -35,49 +37,52 @@ export default {
         foto: "",
         link: "",
       },
-      spotify: ""
+      spotify: "",
     };
   },
   methods: {
-  async obtenerNoticia() {
-    try {
-      const snapshot = await db.ref("nota").once("value");
-      const noticias = snapshot.val();
-      const noticia = noticias[Object.keys(noticias)[0]];
-      this.noticia.titulo = noticia.titulo;
-      this.noticia.subtitulo = noticia.subtitulo;
-      this.noticia.texto = noticia.cuerpo;
-      this.noticia.link = noticia.link;
-      await this.obtenerImagenNoticia();
-    } catch (error) {
-      console.error(error);
-      // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
-    }
+    async obtenerNoticia() {
+      try {
+        const snapshot = await db.ref("nota").once("value");
+        const noticias = snapshot.val();
+        const noticia = noticias[Object.keys(noticias)[0]];
+        this.noticia.titulo = noticia.titulo;
+        this.noticia.subtitulo = noticia.subtitulo;
+        this.noticia.texto = noticia.cuerpo;
+        this.noticia.link = noticia.link;
+        await this.obtenerImagenNoticia();
+      } catch (error) {
+        console.error(error);
+        // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
+      }
+    },
+
+    async obtenerImagenNoticia() {
+      try {
+        const res = await storageRef.child("imagenes/").listAll();
+        const url = await res.items[0].getDownloadURL();
+        this.noticia.foto = url;
+      } catch (error) {
+        console.error(error);
+        // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
+      }
+    },
   },
 
-  async obtenerImagenNoticia() {
-    try {
-      const res = await storageRef.child("imagenes/").listAll();
-      const url = await res.items[0].getDownloadURL();
-      this.noticia.foto = url;
-    } catch (error) {
-      console.error(error);
-      // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
-    }
-  }
-},
-
-created() {
-  this.obtenerNoticia();
-}
+  created() {
+    this.obtenerNoticia();
+  },
 };
 </script>
 
 <style>
- a, a:hover, a:focus, a:active {
-      text-decoration: none !important;
-      color: #c8c544;
- }
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none !important;
+  color: #c8c544;
+}
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;600;300&display=swap");
 .padre {
   margin-top: 2%;
@@ -110,7 +115,8 @@ created() {
   font-family: "Outfit", sans-serif;
   font-weight: 700;
   color: #c8c544;
-  font-size: 3vw;
+  font-size: 2.5vw;
+
   margin-top: 2%;
   margin-left: 3%;
   margin-bottom: 0;
@@ -129,7 +135,7 @@ created() {
   font-family: "Outfit", sans-serif;
   font-weight: 300;
   color: black;
-  font-size: 1.7vw;
+  font-size: 1.5vw;
   margin-left: 3%;
   margin-bottom: 0;
 }
@@ -149,6 +155,80 @@ created() {
   margin-bottom: 1.5%;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1580px) {
+  .texto {
+    font-size: calc(1.5rem - ((100vw) / 10000));
+    margin-left: 3%;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .titulo {
+    font-size: 2.0rem;
+  }
+}
+@media screen and (max-width: 1380px) {
+  .texto {
+    font-size: calc(1.5rem - ((100vw) / 10000));
+    margin-left: 3%;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
+
+@media screen and (max-width: 1245px) {
+  .texto {
+    font-size: calc(1.5rem - ((100vw) / 10000));
+    margin-left: 3%;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .texto {
+    font-size: 1.5vw;
+    margin-left: 3%;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .titulo {
+    font-size: 2.5vw;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .texto {
+    font-size: 1.5vw;
+    margin-left: 3%;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 
 @media screen and (max-width: 854px) {
   .base {
