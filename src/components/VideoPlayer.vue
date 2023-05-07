@@ -70,8 +70,9 @@ export default {
 
 <style>
 .video {
+
   width: 62vw;
-  height: 62vh;
+  height: max-content;
 }
 
 .youtube {
@@ -82,7 +83,9 @@ export default {
 
 @media screen and (max-width: 854px) {
   .video {
+    margin-top: 5%;
     width: 90vw;
+    height: max-content;
   }
 
   .youtube {

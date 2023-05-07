@@ -52,13 +52,13 @@ export default {
 
 <style>
 .spotify {
-  height: 100%;
+  height: 40vh;
   width: 95%;
   margin-left: 10%;
 }
 @media screen and (max-width: 854px) {
 .spotify {
-  height: 68vh;
+  height: 40vh;
   width: 90vw;
   margin-left: 0%;
   margin-top: 4%;
