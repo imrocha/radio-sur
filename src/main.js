@@ -8,8 +8,17 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faUserSecret, faPlay, faVolumeHigh, faVolumeLow, faVolumeOff, faVolumeXmark, faPause, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter, faFacebook, faWhatsapp} from '@fortawesome/free-brands-svg-icons'
+import VueRouter from "vue-router";
+import routes from "./routes";
 
 library.add(faUserSecret, faPlay, faTwitter, faFacebook, faWhatsapp, faVolumeHigh, faVolumeLow, faVolumeOff, faVolumeXmark, faPause, faBars);
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes: routes,
+  mode: "history",
+});
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.use(BootstrapVue);
@@ -18,5 +27,6 @@ Vue.use(VueFire);
 
 
 new Vue({
+  router,
   render: (h) => h(App),
 }).$mount("#app");

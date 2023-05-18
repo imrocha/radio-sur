@@ -40,6 +40,7 @@ export default {
 
 
 .media {
+  margin-top: 2%;
   display: flex;
   justify-content: center;
   padding-bottom: 3%;

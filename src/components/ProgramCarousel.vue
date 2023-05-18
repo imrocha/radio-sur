@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="carrusel">
     <vueper-slides
       v-bind:visible-slides="cards"
       :slide-ratio="slideRatio"
@@ -80,6 +80,10 @@ export default {
 </script>
 
 <style>
+.carrusel {
+  margin-bottom: 2%;
+}
+
 .vueper-slide img {
   max-width: 100%;
   max-height: 300px;

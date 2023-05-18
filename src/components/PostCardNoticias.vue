@@ -1,81 +1,33 @@
 <template>
-  <div class="padre">
-    <div class="base" >
-      <div class="descripcion">
-        <p class="titulo">{{ noticia.titulo }}</p>
-        <p class="subtitulo">{{ noticia.subtitulo }}</p>
-        <p class="texto">
-          {{ noticia.texto }}
-        </p>
-        <a :href="noticia.link" class="verNota" target="_blank"
-          >VER LA NOTA ></a
-        >
+  <div class="padreNoticias">
+    <div class="baseNoticias">
+      <div class="marcoNoticias">
+        <img class="fotoNoticias" src="../assets/horoscopo.jpg" alt="" />
       </div>
-      <div class="marco">
-        <img class="foto" :src="noticia.foto" alt="" />
+      <div class="descripcionNoticias">
+        <p class="tituloNoticias">
+          Noelia Sinkunas se quedo con dos premios gardel
+        </p>
+        <p class="textoNoticias">
+          ¡Qué semana arrancamos ¡ Ganó argentina, el pueblo argentino llora de
+          felicidad , se viene Navidad.¡Qué semana arrancamos ¡ Ganó argentina,
+          el pueblo argentino llora de felicidad , se viene Navidad.
+        </p>
       </div>
     </div>
   </div>
 </template>
-
-<script>
-import Firebase from "firebase";
-import "firebase/storage";
-import config from "@/config";
-let app = Firebase.initializeApp(config);
-let db = app.database();
-let storage = app.storage();
-let storageRef = storage.ref();
-
+  
+  <script>
 export default {
   data() {
-    return {
-      noticia: {
-        titulo: "",
-        subtitulo: "",
-        texto: "",
-        foto: "",
-        link: "",
-      },
-      spotify: "",
-    };
+    return {};
   },
-  methods: {
-    async obtenerNoticia() {
-      try {
-        const snapshot = await db.ref("nota").once("value");
-        const noticias = snapshot.val();
-        const noticia = noticias[Object.keys(noticias)[0]];
-        this.noticia.titulo = noticia.titulo;
-        this.noticia.subtitulo = noticia.subtitulo;
-        this.noticia.texto = noticia.cuerpo;
-        this.noticia.link = noticia.link;
-        await this.obtenerImagenNoticia();
-      } catch (error) {
-        console.error(error);
-        // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
-      }
-    },
-
-    async obtenerImagenNoticia() {
-      try {
-        const res = await storageRef.child("imagenes/").listAll();
-        const url = await res.items[0].getDownloadURL();
-        this.noticia.foto = url;
-      } catch (error) {
-        console.error(error);
-        // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
-      }
-    },
-  },
-
-  created() {
-    this.obtenerNoticia();
-  },
+  methods: {},
 };
 </script>
-
-<style>
+  
+  <style>
 a,
 a:hover,
 a:focus,
@@ -84,43 +36,48 @@ a:active {
   color: #c8c544;
 }
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
-.padre {
+.padreNoticias {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding-bottom: 2%;
 }
 
-.base {
+.baseNoticias {
   border-radius: 10px;
   display: flex;
   flex-direction: row;
-  width: 80%;
-  height: 25vw;
-  background-color: white;
+  width: 70%;
+  height: 18vw;
+  background-color: black;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.5);
 }
 
-.descripcion {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  margin-right: 2%;
+.descripcionNoticias {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-right: 2%;
+    justify-content: center;
 }
 
-.titulo {
+.tituloNoticias {
   font-family: "Outfit", sans-serif;
   font-weight: 700;
-  color: #c8c544;
-  font-size: 2.5vw;
+  background: linear-gradient(to bottom, #5A5906, #C8C544);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+  font-size: 2vw;
 
   margin-top: 2%;
   margin-left: 3%;
   margin-bottom: 0;
 }
 
-.subtitulo {
+.subtituloNoticias {
   font-family: "Outfit", sans-serif;
   font-weight: 600;
   color: black;
@@ -129,23 +86,23 @@ a:active {
   margin-bottom: 0;
 }
 
-.texto {
+.textoNoticias {
   font-family: "Outfit", sans-serif;
-  font-weight: 300;
-  color: black;
+    font-weight: 200;
+  color: white;
   font-size: 1.5vw;
   margin-left: 3%;
-  margin-bottom: 0;
   margin-right: 3%;
 
+  margin-bottom: 2%;
 }
 
-.foto {
+.fotoNoticias {
   width: 100%;
   height: 100%;
 }
 
-.verNota {
+.verNotaNoticias {
   font-family: "Outfit", sans-serif;
   font-weight: 600;
   text-align: end;
@@ -157,7 +114,7 @@ a:active {
 }
 
 @media screen and (max-width: 1580px) {
-  .texto {
+  .textoNoticias {
     font-size: calc(1.5rem - ((100vw) / 10000));
     margin-left: 3%;
     margin-bottom: 0;
@@ -166,29 +123,23 @@ a:active {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  margin-bottom: 2%;
   }
-  .titulo {
-    font-size: 2.0rem;
+  .tituloNoticias {
+    font-size: 2rem;
   }
 }
+
+@media screen and (max-width: 1499px) {
+
+  .tituloNoticias {
+    font-size: 1.9rem;
+  }
+}
+
 @media screen and (max-width: 1380px) {
-  .texto {
-    font-size: calc(1.5rem - ((100vw) / 10000));
-    margin-left: 3%;
-    margin-bottom: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 5; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-
-
-@media screen and (max-width: 1245px) {
-  .texto {
-    font-size: calc(1.5rem - ((100vw) / 10000));
+  .textoNoticias {
+    font-size: calc(1.4rem - ((100vw) / 10000));
     margin-left: 3%;
     margin-bottom: 0;
     display: -webkit-box;
@@ -196,18 +147,33 @@ a:active {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  margin-bottom: 2%;
   }
 }
 
 @media screen and (max-width: 1245px) {
-  .titulo {
-   font-size: 2.3vw;
+  .textoNoticias {
+    font-size: calc(1.3rem - ((100vw) / 10000));
+    margin-left: 3%;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Aquí puedes cambiar la cantidad de líneas que deseas mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  margin-bottom: 2%;
+  }
+}
+
+@media screen and (max-width: 1245px) {
+  .tituloNoticias {
+    font-size: 2.3vw;
   }
 }
 
 @media screen and (max-width: 1080px) {
-  .texto {
-    font-size: 1.5vw;
+  .textoNoticias {
+    font-size: 1.45vw;
     margin-left: 3%;
     margin-bottom: 0;
     display: -webkit-box;
@@ -215,15 +181,16 @@ a:active {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  margin-bottom: 2%;
   }
 
-  .titulo {
+  .tituloNoticias {
     font-size: 2.5vw;
   }
 }
 
 @media screen and (max-width: 1000px) {
-  .texto {
+  .textoNoticias {
     font-size: 1.5vw;
     margin-left: 3%;
     margin-bottom: 0;
@@ -232,12 +199,12 @@ a:active {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  margin-bottom: 2%;
   }
 }
 
-
 @media screen and (max-width: 854px) {
-  .base {
+  .baseNoticias {
     border-radius: 10px;
     flex-direction: column;
     height: auto;
@@ -245,33 +212,33 @@ a:active {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 
-  .descripcion {
+  .descripcionNoticias {
     margin-right: 0;
     width: 100%;
   }
 
-  .foto {
+  .fotoNoticias {
     display: none;
   }
 
-  .verNota {
+  .verNotaNoticias {
     text-align: end;
     margin-right: 3%;
   }
 
-  .titulo {
+  .tituloNoticias {
     font-size: 1rem;
   }
 
-  .subtitulo {
+  .subtituloNoticias {
     font-size: 0.8rem;
   }
 
-  .texto {
+  .textoNoticias {
     font-size: 0.7rem;
   }
 
-  .verNota {
+  .verNotaNoticias {
     font-size: 0.7rem;
   }
 }
