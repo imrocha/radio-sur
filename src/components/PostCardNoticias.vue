@@ -217,9 +217,6 @@ a:active {
     width: 100%;
   }
 
-  .fotoNoticias {
-    display: none;
-  }
 
   .verNotaNoticias {
     text-align: end;
@@ -228,6 +225,10 @@ a:active {
 
   .tituloNoticias {
     font-size: 1rem;
+  }
+
+  .fotoNoticias {
+    display: none;
   }
 
   .subtituloNoticias {

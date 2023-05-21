@@ -45,22 +45,18 @@ export default {
 
 h1 {
   font-family: "Outfit", sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   color: #ffffff;
-  font-size: 4vw;
+  font-size: 5vw;
 
-  margin-top: 2%;
+  margin-top: 1%;
   margin-left: 10%;
   margin-bottom: 0;
 }
 
 .noticias {
-  background: rgb(0, 0, 15);
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 15, 1) 0%,
-    rgba(200, 197, 68, 1) 72%
-  );
+  background: rgb(200,197,68);
+background: linear-gradient(180deg, rgba(200,197,68,1) 10%, rgba(0,0,0,1) 32%);
   width: 100%;
   height: 100%;
 }
@@ -84,4 +80,14 @@ h1 {
     margin-left: 7%;
     margin-right: 7%;
 }
+
+@media(max-width: 767px) {
+  h1 {
+    font-size: 9vw;
+    margin-left: 5%;
+    margin-bottom: 2%;
+  }
+}
+
+
 </style>
