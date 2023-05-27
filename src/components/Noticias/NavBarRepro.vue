@@ -18,7 +18,7 @@
             />
           </b-navbar-toggle>
           <b-navbar-brand href="#" v-if="fix"
-            ><img src="../assets/sur.png" alt="radio-sur" class="sur"
+            ><img src="../../assets/sur.png" alt="radio-sur" class="sur"
           /></b-navbar-brand>
         </div>
   

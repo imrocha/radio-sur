@@ -2,7 +2,7 @@
   <div class="padreNoticias">
     <div class="baseNoticias">
       <div class="marcoNoticias">
-        <img class="fotoNoticias" src="../assets/horoscopo.jpg" alt="" />
+        <img class="fotoNoticias" src="../../assets/horoscopo.jpg" alt="" />
       </div>
       <div class="descripcionNoticias">
         <p class="tituloNoticias">

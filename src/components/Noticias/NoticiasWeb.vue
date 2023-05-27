@@ -26,7 +26,7 @@
 <script>
 import GrillaDestacadaVue from './GrillaDestacada.vue';
 import NavBarRepro from "./NavBarRepro.vue";
-import PostCard from "./PostCard.vue";
+import PostCard from "../PostCard.vue";
 import PostCardNoticiasVue from './PostCardNoticias.vue';
 
 export default {

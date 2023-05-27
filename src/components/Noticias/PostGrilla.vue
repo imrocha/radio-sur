@@ -2,9 +2,9 @@
   <div>
     <div class="elemento">
       <div class="gradiente" :style="`background-image: ${gradientColor}`"></div>
-      <img class="imgNotas" :src="img" alt="" />
+      <img class="imgNotas" :src="`${img}`" alt="" />
       <div class="texto">
-        <h2>Lorem ipsum</h2>
+        <h2>{{ titulo }}</h2>
       </div>
     </div>
   </div>
@@ -19,6 +19,9 @@ export default {
       default: "linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));",
     },
     img: {
+      type: String,
+    },
+    titulo: {
       type: String,
     },
   },
