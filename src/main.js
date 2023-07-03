@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+import VueLazyload from 'vue-lazyload'
 import { BootstrapVue } from "bootstrap-vue";
 import VueFire from 'vuefire'
 import "bootstrap/dist/css/bootstrap.css";
@@ -14,11 +15,22 @@ import routes from "./routes";
 library.add(faUserSecret, faPlay, faTwitter, faFacebook, faWhatsapp, faVolumeHigh, faVolumeLow, faVolumeOff, faVolumeXmark, faPause, faBars);
 
 Vue.use(VueRouter);
+Vue.use(VueLazyload)
+
 
 const router = new VueRouter({
   routes: routes,
-  mode: "history",
+  mode: "hash",
 });
+
+const loadimage = require('./assets/loading.gif')
+
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: loadimage,
+  loading: loadimage,
+  attempt: 1
+})
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.use(BootstrapVue);

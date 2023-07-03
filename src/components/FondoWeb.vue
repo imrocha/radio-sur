@@ -6,16 +6,19 @@
       <VideoPlayer/>
       <SpotifyCard /> 
     </div>
+    <GrillaDestacada />
 </div>
 </template>
 
 <script>
+import GrillaDestacada from "./Noticias/GrillaDestacada.vue";
 import ProgramCarousel from "./ProgramCarousel.vue";
 import PostCard from "./PostCard.vue";
 import VideoPlayer from "./VideoPlayer.vue";
 import SpotifyCard from './SpotifyCard.vue';
 export default {
   components: {
+    GrillaDestacada,
     ProgramCarousel,
     PostCard,
     VideoPlayer,

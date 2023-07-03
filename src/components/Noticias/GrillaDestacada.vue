@@ -1,29 +1,43 @@
 <template>
   <div>
-    <div class="contenedorColumna">
+    <div v-if="!cargando" class="contenedorColumna">
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(nota, index) in notas" :key="index">
-            <PostGrilla :img="`${nota.urlImagen}`" :gradientColor="gradientColors[index % gradientColors.length]" :titulo="`${nota.titulo}`"/>
+            <router-link :to="{ name: 'LeerNoticia', params: { id: nota.id } }">
+              <PostGrilla
+                :img="`${nota.urlImagen}`"
+                :gradientColor="gradientColors[index % gradientColors.length]"
+                :titulo="`${nota.titulo}`"
+              />
+            </router-link>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-else class="spinner">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PostGrilla from "./PostGrilla.vue";
-import Swiper, {Autoplay} from "swiper";
 import Firebase from "firebase";
 import "firebase/storage";
+import { Autoplay, Swiper } from "swiper";
 import config from "../../config";
+import PostGrilla from "./PostGrilla.vue";
 let app = Firebase.initializeApp(config, "grilla");
 let db = app.database();
 let storage = app.storage();
 let storageRef = storage.ref();
 
-Swiper.use(Autoplay); 
+Swiper.use(Autoplay);
 
 export default {
   name: "GrillaDestacada",
@@ -42,12 +56,14 @@ export default {
         "linear-gradient(to top, rgba(152, 144, 227, 0.2) 0%, rgba(177, 244, 207, 0.2) 100%);",
       ],
       swiper: null,
-
+      cargando: true,
     };
   },
-  mounted() {
+
+  updated() {
     this.initSwiper();
   },
+
   methods: {
     initSwiper() {
       if (this.swiper === null) {
@@ -58,7 +74,7 @@ export default {
             disableOnInteraction: false,
           },
           loop: true,
-          spaceBetween: 10,
+          spaceBetween: 20,
           // Otras opciones de configuración de Swiper si las necesitas
         });
 
@@ -70,13 +86,16 @@ export default {
       try {
         const snapshot = await db.ref("nota").get();
         const noticias = snapshot.val();
-        const notas = Object.entries(noticias).map(([id, nota]) => {
-          nota.id = id; // Agregar el hash ID al objeto nota
-          return nota;
-        });
+
+        const notas = Object.entries(noticias)
+          .map(([id, nota]) => {
+            nota.id = id; // Agregar el hash ID al objeto nota
+            return nota;
+          })
+          .filter((nota) => !nota.destacada); // Filtrar las notas que no están destacadas
+
         this.notas = notas;
         await this.obtenerImagenNoticia();
-        console.log(this.notas);
       } catch (error) {
         console.error(error);
         // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
@@ -84,24 +103,27 @@ export default {
     },
 
     async obtenerImagenNoticia() {
-  try {
-    const res = await storageRef.child("imagenes/").listAll();
-    const urls = await Promise.all(res.items.map((item) => item.getDownloadURL()));
+      try {
+        this.cargando = true;
+        const res = await storageRef.child("imagenes/").listAll();
+        const urls = await Promise.all(
+          res.items.map((item) => item.getDownloadURL())
+        );
 
-    this.notas = this.notas.map((nota) => {
-      const imagenNota = nota.nombreFoto;
-      const url = urls.find((url) => url.includes(imagenNota));
-      return {
-        ...nota,
-        urlImagen: url ? url : '',
-      };
-    });
-  } catch (error) {
-    console.error(error);
-    // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
-  }
-},
-
+        this.notas = this.notas.map((nota) => {
+          const imagenNota = nota.nombreFoto;
+          const url = urls.find((url) => url.includes(imagenNota));
+          return {
+            ...nota,
+            urlImagen: url ? url : "",
+          };
+        });
+        this.cargando = false;
+      } catch (error) {
+        console.error(error);
+        // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
+      }
+    },
   },
   created() {
     this.obtenerNoticia();
@@ -138,10 +160,61 @@ export default {
 
 .swiper-container {
   width: 100%;
-  overflow: hidden; /* Evita el desbordamiento horizontal */
+  overflow: hidden;
+  /* Evita el desbordamiento horizontal */
 }
 
 .swiper-slide {
-  width: auto; /* Ajusta el ancho de las imágenes según el contenido */
+  width: auto;
+  /* Ajusta el ancho de las imágenes según el contenido */
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.spinner .lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner .lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #ccc;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #ccc transparent transparent transparent;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(90deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(270deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

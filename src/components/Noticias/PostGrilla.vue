@@ -2,8 +2,9 @@
   <div>
     <div class="elemento">
       <div class="gradiente" :style="`background-image: ${gradientColor}`"></div>
-      <img class="imgNotas" :src="`${img}`" alt="" />
-      <div class="texto">
+      
+      <img class="imgNotas" :src="`${img}`" alt="" @load="imageLoaded = true"/>
+      <div class="texto" v-if="imageLoaded">
         <h2>{{ titulo }}</h2>
       </div>
     </div>
@@ -26,11 +27,12 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      imageLoaded: false,
+    };
   },
 
   mounted() {
-    console.log(this.img);
   },
 };
 </script>

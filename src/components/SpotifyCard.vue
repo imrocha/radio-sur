@@ -36,7 +36,6 @@ export default {
       const playlist = snapshot.val();
       const spotify = playlist[Object.keys(playlist)];
         this.link = spotify;
-        console.log(this.link);
       } catch (error) {
         console.log(error);
       }

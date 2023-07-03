@@ -17,22 +17,26 @@
             size="lg"
           />
         </b-navbar-toggle>
-        <b-navbar-brand href="#" v-if="fix"
-          ><img src="../assets/sur.png" alt="radio-sur" class="sur"
-        /></b-navbar-brand>
+        <b-navbar-brand href="#" v-if="fix">
+          <router-link :to="{ name: 'HomeWeb' }">
+            <img src="../assets/sur.png" alt="radio-sur" class="sur" />
+          </router-link>
+        </b-navbar-brand>
       </div>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ms-auto items">
           <div v-if="fix" class="paginas">
-            <b-nav-item class="nav-item" style="margin-top: 2%">
+            <!-- <b-nav-item class="nav-item" style="margin-top: 2%">
               <p class="nav-menu">Streaming</p>
-            </b-nav-item>
-            <b-nav-item class="nav-item">
-              <p class="nav-menu">Programación</p>
-            </b-nav-item>
-            <b-nav-item class="nav-item">
-              <p class="nav-menu">Noticias</p>
+            </b-nav-item> -->
+            <!-- <b-nav-item class="nav-item">
+                <p class="nav-menu">Programación</p>
+              </b-nav-item> -->
+            <b-nav-item class="nav-item" style="margin-top: 2%">
+              <router-link :to="{ name: 'NoticiasWeb' }">
+                <p class="nav-menu">Noticias</p>
+              </router-link>
             </b-nav-item>
             <b-nav-item class="nav-item">
               <p class="nav-menu">La Radio</p>
@@ -133,7 +137,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .sur {
   width: 50%;

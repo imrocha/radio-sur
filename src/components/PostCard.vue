@@ -1,18 +1,25 @@
 <template>
-  <div class="padre">
-    <div class="base" >
+  <div class="padre" v-if="noticia.destacada">
+    <div class="base">
       <div class="descripcion">
         <p class="titulo">{{ noticia.titulo }}</p>
-        <p class="subtitulo">{{ noticia.subtitulo }}</p>
         <p class="texto">
-          {{ noticia.texto }}
+          {{ noticia.subtitulo }}
         </p>
-        <a :href="noticia.link" class="verNota" target="_blank"
+        <a v-if="!cargando" :href="noticia.link" class="verNota" target="_blank"
           >VER LA NOTA ></a
         >
       </div>
       <div class="marco">
-        <img class="foto" :src="noticia.foto" alt="" />
+        <img v-if="!cargando" class="foto" :src="noticia.foto" alt="" />
+        <div v-else class="spinner">
+          <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -36,8 +43,11 @@ export default {
         texto: "",
         foto: "",
         link: "",
+        nombreFoto: "",
+        destacada: true,
       },
       spotify: "",
+      cargando: true,
     };
   },
   methods: {
@@ -45,12 +55,21 @@ export default {
       try {
         const snapshot = await db.ref("nota").once("value");
         const noticias = snapshot.val();
-        const noticia = noticias[Object.keys(noticias)[0]];
-        this.noticia.titulo = noticia.titulo;
-        this.noticia.subtitulo = noticia.subtitulo;
-        this.noticia.texto = noticia.cuerpo;
-        this.noticia.link = noticia.link;
-        await this.obtenerImagenNoticia();
+        const noticiasDestacadas = Object.values(noticias).filter(
+          (noticia) => noticia.destacada === "true"
+        );
+        console.log(noticiasDestacadas);
+        if (noticiasDestacadas.length > 0) {
+          const noticiaDestacada = noticiasDestacadas[0]; // Obtén la primera noticia destacada (puedes ajustar esto según tus necesidades)
+          this.noticia.titulo = noticiaDestacada.titulo;
+          this.noticia.subtitulo = noticiaDestacada.subtitulo;
+          this.noticia.texto = noticiaDestacada.cuerpo;
+          this.noticia.link = noticiaDestacada.link;
+          this.noticia.nombreFoto = noticiaDestacada.nombreFoto;
+          await this.obtenerImagenNoticia();
+        } else {
+          this.noticia.destacada = false;
+        }
       } catch (error) {
         console.error(error);
         // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
@@ -59,9 +78,14 @@ export default {
 
     async obtenerImagenNoticia() {
       try {
+        this.cargando = true;
         const res = await storageRef.child("imagenes/").listAll();
-        const url = await res.items[0].getDownloadURL();
+        const urls = await Promise.all(
+          res.items.map((item) => item.getDownloadURL())
+        );
+        const url = urls.find((url) => url.includes(this.noticia.nombreFoto));
         this.noticia.foto = url;
+        this.cargando = false;
       } catch (error) {
         console.error(error);
         // Mostrar un mensaje de error al usuario o realizar otra acción según su necesidad
@@ -83,7 +107,7 @@ a:active {
   text-decoration: none !important;
   color: #c8c544;
 }
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap");
 .padre {
   display: flex;
   flex-direction: column;
@@ -97,7 +121,7 @@ a:active {
   display: flex;
   flex-direction: row;
   width: 80%;
-  height: 25vw;
+  height: 27vw;
   background-color: white;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.5);
 }
@@ -105,7 +129,7 @@ a:active {
 .descripcion {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  /* width: 70%; */
   margin-right: 2%;
 }
 
@@ -137,12 +161,17 @@ a:active {
   margin-left: 3%;
   margin-bottom: 0;
   margin-right: 3%;
-
 }
 
 .foto {
   width: 100%;
   height: 100%;
+}
+
+.marco {
+  display: flex;
+  align-items: center;
+  width: 150em;
 }
 
 .verNota {
@@ -154,6 +183,55 @@ a:active {
   margin-top: 2%;
   margin-bottom: 1.5%;
   cursor: pointer;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: -webkit-fill-available;
+}
+
+.spinner .lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner .lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #ccc;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #ccc transparent transparent transparent;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(90deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(270deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 1580px) {
@@ -168,7 +246,7 @@ a:active {
     text-overflow: ellipsis;
   }
   .titulo {
-    font-size: 2.0rem;
+    font-size: 2rem;
   }
 }
 @media screen and (max-width: 1380px) {
@@ -183,8 +261,6 @@ a:active {
     text-overflow: ellipsis;
   }
 }
-
-
 
 @media screen and (max-width: 1245px) {
   .texto {
@@ -201,7 +277,7 @@ a:active {
 
 @media screen and (max-width: 1245px) {
   .titulo {
-   font-size: 2.3vw;
+    font-size: 2.3vw;
   }
 }
 
@@ -234,7 +310,6 @@ a:active {
     text-overflow: ellipsis;
   }
 }
-
 
 @media screen and (max-width: 854px) {
   .base {
