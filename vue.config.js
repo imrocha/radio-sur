@@ -6,7 +6,7 @@ module.exports = {
         sitemap: {
             urls: ['https://radiosurfm.com.ar',
                 'https://radiosurfm.com.ar/noticias',],
-
+ 
         }
     }
 }
