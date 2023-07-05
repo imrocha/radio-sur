@@ -14,13 +14,14 @@ import routes from "./routes";
 
 library.add(faUserSecret, faPlay, faTwitter, faFacebook, faWhatsapp, faVolumeHigh, faVolumeLow, faVolumeOff, faVolumeXmark, faPause, faBars);
 
-Vue.use(VueRouter);
 Vue.use(VueLazyload)
 
 
-const router = new VueRouter({
-  routes: routes,
-  mode: "hash",
+Vue.use(Router);
+const router = new Router({
+	mode: 'hash',
+	base: 'https://radiosurfm.com.ar',
+	routes,
 });
 
 const loadimage = require('./assets/loading.gif')
